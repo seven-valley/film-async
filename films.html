@@ -1,0 +1,54 @@
+<div id="demo"></div>
+<script>
+let myKey = '????????';	
+//------------------------------
+let films = [
+	{ id:'tt0076759'},
+	{ id:'tt0133093'},
+	{ id:'tt1375666'},
+];
+let tab =[];
+//------------------------------
+function affiche(){
+	let depot = document.getElementById('demo');
+	//console.log(tab);
+	for (let f of tab){
+		let img = document.createElement('img');
+		//let br = document.createElement('br');
+		img.setAttribute('src', f.Poster);
+		img.setAttribute('width', 100);
+		depot.appendChild(img);
+
+	}
+}
+//------------------------------
+ async function getFilm(id) {
+    return new Promise(
+        (resolve) => {
+            let url = 'http://www.omdbapi.com/?apikey='+myKey+'&i='+ id;
+            fetch(url)
+                .then(response => response.json())
+                .then(film => {
+                    //comme un return pour mettre à jour le film
+                    resolve(film);
+                     //console.log(film);
+                });
+        }
+
+    );
+}
+//------------------------------
+async function majFilms() {
+   tab =[];
+   //console.log(films);
+    for (let f of films) {
+        let a = await getFilm(f.id);
+        tab.push(a)
+    }
+  // console.log(tab);
+  affiche();
+}
+majFilms();
+
+//console.log(tab);
+</script>
